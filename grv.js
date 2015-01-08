@@ -36,7 +36,6 @@ function show_indicator() {
     $.get( href, function(d) {
         console.log('hi');
         $('#myModalLabel').html(d.title);
-        $('#summary').css({'white-space':'pre-line'});
         $('#summary').html(d.summary);
         $('#files').html("");
         $('#figures').html("");
@@ -54,17 +53,24 @@ function show_indicator() {
         $(d.report_figures).each(function(i,e) {
             $.get(e.href, function(figure) {
                 console.log('figure ',figure);
-                $('#figures').html('<pre>' + JSON.stringify(figure,undefined,"  ") + "</pre>");
+                $('#figures').html(
+                    figure.title + '<hr>' +
+                    '<pre>' + JSON.stringify(figure,undefined,"  ") + "</pre>");
                 $(figure.images).each(function(i,e) {
-                    $('#images').html('<pre>' + JSON.stringify(e,undefined," ") + '</pre>' );
+                    $('#images').html(
+                        e.title + '<hr>' +
+                        '<pre>' + JSON.stringify(e,undefined," ") + '</pre>' );
                     $.get( server + '/image/' + e.identifier + '.json' , function(img) {
                         $('#images').append("<pre>" + JSON.stringify(img.parents,"","  ") + "</pre>");
                         $(img.parents).each(function(i,e) {
                             $.get( server + e.url + '.json', function (dataset) {
-                                $('#data').append('<pre>' + JSON.stringify(dataset,"","  ") + "</pre>");
+                                $('#data').append(
+                                    dataset.description + '<br><b>Cite as :</b> ' + dataset.cite_metadata +
+                                    '<hr><pre>' + JSON.stringify(dataset,"","  ") + "</pre>");
                             } );
                             $.get( server + e.activity_uri + '.json', function (activity) {
-                                $('#activities').append('<pre>' + JSON.stringify(activity,"","  ") + "</pre>");
+                                $('#activities').append(
+                                    activity.methodology + '<hr><pre>' + JSON.stringify(activity,"","  ") + "</pre>");
                             } );
                         });
                     } );
