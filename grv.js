@@ -1,10 +1,8 @@
 
 // settings
 var server;
-var report;
 
-server = 'http://data.gcis-dev-front.joss.ucar.edu';
-report = 'nca3';
+server = 'http://data.globalchange.gov';
 
 $(main);
 
